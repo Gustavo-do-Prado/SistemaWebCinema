@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="cabecalho(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo} + ' · Cinema'">Cinema</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+<header class="topo" th:fragment="topo(ativo)">
+    <div>
+        <a class="marca" th:href="@{/filmes}">CINEMA<span>.</span></a>
+        <nav aria-label="Principal">
+            <a th:href="@{/filmes}" th:classappend="${ativo == 'filmes'} ? 'ativo'">Filmes</a>
+            <a th:href="@{/salas}" th:classappend="${ativo == 'salas'} ? 'ativo'">Salas</a>
+            <a th:href="@{/sessoes}" th:classappend="${ativo == 'sessoes'} ? 'ativo'">Sessões</a>
+            <a th:href="@{/ingressos}" th:classappend="${ativo == 'ingressos'} ? 'ativo'">Ingressos</a>
+        </nav>
+    </div>
+</header>
+<div th:fragment="avisos">
+    <div class="aviso ok" th:if="${sucesso}" th:text="${sucesso}" role="status"></div>
+    <div class="aviso erro" th:if="${erro}" th:text="${erro}" role="alert"></div>
+</div>
+</body>
+</html>

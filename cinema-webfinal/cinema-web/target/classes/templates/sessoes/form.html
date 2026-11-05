@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: cabecalho(${form.id == null ? 'Nova sessão' : 'Editar sessão'})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: topo('sessoes')}"></header>
+<main>
+    <h1 th:text="${form.id == null} ? 'Nova sessão' : 'Editar sessão'">Nova sessão</h1>
+
+    <p class="resumo" th:if="${filmes.isEmpty() or salas.isEmpty()}">
+        Para criar uma sessão é preciso ter pelo menos um filme e uma sala cadastrados.
+    </p>
+
+    <form class="card formulario" method="post" novalidate th:object="${form}"
+          th:action="${form.id == null} ? @{/sessoes} : @{/sessoes/{id}(id=${form.id})}">
+
+        <div class="campo">
+            <label for="filmeId">Filme</label>
+            <select id="filmeId" th:field="*{filmeId}" th:errorclass="invalido">
+                <option value="">Selecione...</option>
+                <option th:each="f : ${filmes}" th:value="${f.id}" th:text="${f.titulo}"></option>
+            </select>
+            <div class="erro" th:if="${#fields.hasErrors('filmeId')}" th:errors="*{filmeId}"></div>
+        </div>
+
+        <div class="campo">
+            <label for="salaId">Sala</label>
+            <select id="salaId" th:field="*{salaId}" th:errorclass="invalido">
+                <option value="">Selecione...</option>
+                <option th:each="s : ${salas}" th:value="${s.id}" th:text="${s.nome}"></option>
+            </select>
+            <div class="erro" th:if="${#fields.hasErrors('salaId')}" th:errors="*{salaId}"></div>
+        </div>
+
+        <div class="linha">
+            <div class="campo">
+                <label for="dataHora">Data e hora</label>
+                <input id="dataHora" type="datetime-local" th:field="*{dataHora}" th:errorclass="invalido">
+                <div class="erro" th:if="${#fields.hasErrors('dataHora')}" th:errors="*{dataHora}"></div>
+            </div>
+            <div class="campo">
+                <label for="preco">Preço (R$)</label>
+                <input id="preco" type="number" min="0" step="0.01" th:field="*{preco}" th:errorclass="invalido">
+                <div class="erro" th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}"></div>
+            </div>
+        </div>
+
+        <div class="botoes">
+            <button class="btn primario" type="submit">Salvar</button>
+            <a class="btn" th:href="@{/sessoes}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

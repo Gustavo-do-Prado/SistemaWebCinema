@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: cabecalho('Nova sala')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: topo('salas')}"></header>
+<main>
+    <h1>Nova sala</h1>
+
+    <form class="card formulario" method="post" novalidate th:object="${form}" th:action="@{/salas}">
+        <div class="campo">
+            <label for="nome">Nome</label>
+            <input id="nome" type="text" th:field="*{nome}" th:errorclass="invalido" maxlength="50" autofocus>
+            <div class="erro" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+        </div>
+
+        <div class="linha">
+            <div class="campo">
+                <label for="capacidade">Capacidade (total de lugares)</label>
+                <input id="capacidade" type="number" min="1" th:field="*{capacidade}" th:errorclass="invalido">
+                <div class="erro" th:if="${#fields.hasErrors('capacidade')}" th:errors="*{capacidade}"></div>
+            </div>
+            <div class="campo">
+                <label for="assentosPorFileira">Assentos por fileira</label>
+                <input id="assentosPorFileira" type="number" min="1" th:field="*{assentosPorFileira}" th:errorclass="invalido">
+                <div class="erro" th:if="${#fields.hasErrors('assentosPorFileira')}" th:errors="*{assentosPorFileira}"></div>
+            </div>
+        </div>
+        <p class="dica">Os assentos são criados automaticamente (A1, A2, ... B1, B2, ...). Você pode ajustar depois em Assentos.</p>
+
+        <div class="botoes">
+            <button class="btn primario" type="submit">Criar sala</button>
+            <a class="btn" th:href="@{/salas}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

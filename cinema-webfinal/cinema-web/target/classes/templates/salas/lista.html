@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: cabecalho('Salas')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: topo('salas')}"></header>
+<main>
+    <h1>Salas</h1>
+    <div th:replace="~{fragments/layout :: avisos}"></div>
+
+    <div class="barra">
+        <span></span>
+        <a class="btn primario" th:href="@{/salas/novo}">+ Nova sala</a>
+    </div>
+
+    <div class="card">
+        <div class="tabela-wrap" th:if="${!salas.isEmpty()}">
+            <table>
+                <thead><tr><th>Nome</th><th>Capacidade</th><th></th></tr></thead>
+                <tbody>
+                <tr th:each="s : ${salas}">
+                    <td th:text="${s.nome}">Sala 1</td>
+                    <td th:text="${s.capacidade} + ' lugares'">6 lugares</td>
+                    <td class="acoes">
+                        <a class="btn pequeno" th:href="@{/salas/{id}/editar(id=${s.id})}">Editar</a>
+                        <form th:action="@{/salas/{id}/excluir(id=${s.id})}" method="post"
+                              th:attr="data-msg='Excluir a sala ' + ${s.nome} + ' e todos os seus assentos?'"
+                              onsubmit="return confirm(this.dataset.msg);">
+                            <button class="btn pequeno perigo" type="submit">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="vazio" th:if="${salas.isEmpty()}">Nenhuma sala cadastrada ainda.</p>
+    </div>
+</main>
+</body>
+</html>
